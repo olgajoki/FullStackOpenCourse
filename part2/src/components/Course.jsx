@@ -1,3 +1,5 @@
+import { useState } from "react"
+
 const Header = (props) => {
     return(
       <>
@@ -7,8 +9,8 @@ const Header = (props) => {
   }
 
   
-const Part = ({part}) => {
 
+const Part = ({part}) => {
     return(
       <>
         <p>
@@ -18,24 +20,29 @@ const Part = ({part}) => {
     )
   }
   
-  const Content = ({parts}) => {
-  
+const Content = ({parts}) => {
+
+  console.log(parts)
+
     return(
-      <>
+        <>
         {parts.map(part =>
             <Part key={part.id} part={part} />
             )}
-      </>
-    )
-  }
-  
+        </>
+        )
+}
+
 
 const Course = ({course}) => {
+
+console.log(course.name)
 
     return (
         <div>
         <Header course={course.name} />
         <Content parts={course.parts}/>
+
       </div>
     )
 }

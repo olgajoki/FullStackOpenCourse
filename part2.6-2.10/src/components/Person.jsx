@@ -1,11 +1,11 @@
-const Person = ({person}) => {
-        return (
-            <div>
-                <p>
-                {person.name}
-                </p>
-          </div>
-        )
-    }
-    
-    export default Person
+const Person = ({ person }) => {
+  return (
+    <div>
+      <p>
+        {person.name} {person.number}
+      </p>
+    </div>
+  );
+};
+
+export default Person;

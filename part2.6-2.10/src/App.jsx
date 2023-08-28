@@ -25,6 +25,33 @@ const App = () => {
       id: persons.length + 1,
     };
 
+    //what if these are done on buttons onClick? 
+    //then Personform could be moved to own component because sets are not part of addInfo anymore?
+    //example for using function as props
+    /*
+    
+  const toggleImportanceOf = (id) => {
+    console.log('importance of ' + id + ' needs to be toggled')
+  }
+
+  // ...
+
+  return (
+    <div>
+      <h1>Notes</h1>
+      <div>
+        <button onClick={() => setShowAll(!showAll)}>
+          show {showAll ? 'important' : 'all' }
+        </button>
+      </div>      
+      <ul>
+        {notesToShow.map(note => 
+          <Note
+            key={note.id}
+            note={note} 
+            toggleImportance={() => toggleImportanceOf(note.id)}
+    */
+    
     setPersons(persons.concat(nameObject));
     setNewName("");
     setNewNumber("");

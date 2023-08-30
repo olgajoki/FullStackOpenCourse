@@ -1,12 +1,21 @@
-//phonebook 2.6
+//phonebook 2.6-2.11
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Person from "./components/Person.jsx";
+import axios from "axios";
 
 const App = () => {
   const [persons, setPersons] = useState([]);
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
+
+  useEffect(() => {
+    console.log("effect");
+    axios.get("http://localhost:3001/persons").then((response) => {
+      console.log("promise fulfilled");
+      setPersons(response.data);
+    });
+  }, []);
 
   const addInfo = (event) => {
     event.preventDefault();
@@ -25,7 +34,7 @@ const App = () => {
       id: persons.length + 1,
     };
 
-    //what if these are done on buttons onClick? 
+    //what if these are done on buttons onClick?
     //then Personform could be moved to own component because sets are not part of addInfo anymore?
     //example for using function as props
     /*
@@ -51,7 +60,7 @@ const App = () => {
             note={note} 
             toggleImportance={() => toggleImportanceOf(note.id)}
     */
-    
+
     setPersons(persons.concat(nameObject));
     setNewName("");
     setNewNumber("");

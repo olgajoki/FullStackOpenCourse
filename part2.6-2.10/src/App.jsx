@@ -1,22 +1,27 @@
-//phonebook 2.6-2.11
+//phonebook 2.6-2.13
 
 import { useState, useEffect } from "react";
 import Person from "./components/Person.jsx";
-import axios from "axios";
+import personService from "./services/persons.js";
 
 const App = () => {
   const [persons, setPersons] = useState([]);
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
 
+  //get persons from server
   useEffect(() => {
-    console.log("effect");
-    axios.get("http://localhost:3001/persons").then((response) => {
-      console.log("promise fulfilled");
-      setPersons(response.data);
-    });
+    personService
+      .getAll()
+      .then((initialPersons) => {
+        setPersons(initialPersons);
+      })
+      .catch((error) => {
+        console.log("fail");
+      });
   }, []);
 
+  //add person info to server
   const addInfo = (event) => {
     event.preventDefault();
     //alert works but person still added to table.. maybe filter it or change the persons.map
@@ -34,36 +39,13 @@ const App = () => {
       id: persons.length + 1,
     };
 
-    //what if these are done on buttons onClick?
-    //then Personform could be moved to own component because sets are not part of addInfo anymore?
-    //example for using function as props
-    /*
-    
-  const toggleImportanceOf = (id) => {
-    console.log('importance of ' + id + ' needs to be toggled')
-  }
-
-  // ...
-
-  return (
-    <div>
-      <h1>Notes</h1>
-      <div>
-        <button onClick={() => setShowAll(!showAll)}>
-          show {showAll ? 'important' : 'all' }
-        </button>
-      </div>      
-      <ul>
-        {notesToShow.map(note => 
-          <Note
-            key={note.id}
-            note={note} 
-            toggleImportance={() => toggleImportanceOf(note.id)}
-    */
-
-    setPersons(persons.concat(nameObject));
-    setNewName("");
-    setNewNumber("");
+    personService.create(nameObject).then((returnedPerson) => {
+      console.log(returnedPerson);
+      console.log(persons);
+      setPersons(persons.concat(returnedPerson));
+      setNewName("");
+      setNewNumber("");
+    });
   };
 
   const handleNameChange = (event) => {

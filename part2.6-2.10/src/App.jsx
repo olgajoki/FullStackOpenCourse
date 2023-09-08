@@ -1,4 +1,5 @@
 //phonebook 2.6-2.13
+// npm run dev && server
 
 import { useState, useEffect } from "react";
 import Person from "./components/Person.jsx";
@@ -54,6 +55,13 @@ const App = () => {
 
   const handleNumberChange = (event) => {
     setNewNumber(event.target.value);
+  };
+
+  const removePerson = () => {
+    personService.remove(id, nameObject).then((deletedPerson) => {
+      console.log(deletedPerson);
+      //  setPersons(persons.JOTAIN(deletedPerson));
+    });
   };
 
   return (

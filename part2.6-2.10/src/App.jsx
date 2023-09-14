@@ -1,5 +1,5 @@
 //phonebook 2.6-2.13
-// npm run dev && server
+// npm run dev && server /
 
 import { useState, useEffect } from "react";
 import Person from "./components/Person.jsx";
@@ -22,17 +22,8 @@ const App = () => {
       });
   }, []);
 
-  //add person info to server
   const addInfo = (event) => {
     event.preventDefault();
-    //alert works but person still added to table.. maybe filter it or change the persons.map
-    persons.map((person) => {
-      if (person.name.includes(newName)) {
-        alert(`${newName} is already added to phonebook`);
-      } else {
-        console.log("elses");
-      }
-    });
 
     const nameObject = {
       name: newName,
@@ -40,13 +31,24 @@ const App = () => {
       id: persons.length + 1,
     };
 
-    personService.create(nameObject).then((returnedPerson) => {
-      console.log(returnedPerson);
-      console.log(persons);
-      setPersons(persons.concat(returnedPerson));
-      setNewName("");
-      setNewNumber("");
-    });
+    //check if name already exists
+    const samePerson = persons.some(
+      (uniquePerson) => uniquePerson.name === nameObject.name
+    );
+
+    if (samePerson) {
+      alert(`${newName} is already added to phonebook`);
+    } else {
+      //add person info to server
+      personService.create(nameObject).then((returnedPerson) => {
+        console.log(returnedPerson);
+        console.log(persons);
+        setPersons(persons.concat(returnedPerson));
+      });
+    }
+    //empty input fields
+    setNewName("");
+    setNewNumber("");
   };
 
   const handleNameChange = (event) => {
